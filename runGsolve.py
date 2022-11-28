@@ -8,10 +8,11 @@ from __future__ import with_statement
 from distutils.core import setup
 
 import sys
-from PyQt4 import QtCore
-from PyQt4 import QtGui
-from Tkinter import Tk
-from tkFileDialog import askopenfilename
+from PyQt5 import QtCore
+from PyQt5 import QtGui
+from PyQt5 import QtWidgets
+from tkinter import Tk
+from tkinter.filedialog import askopenfilename
 import xlrd
 import xlwt
 import os.path
@@ -21,19 +22,19 @@ import ctypes
 import GsolveGUIv3
 import matplotlib
 import matplotlib.pyplot
-import gdal
+from osgeo import gdal
 gdal.UseExceptions()
 import time
-from matplotlib.backends.backend_qt4 import NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qt5 import NavigationToolbar2QT as NavigationToolbar
 
 
 
-class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
+class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
     
     def __init__(self, parent=None):
 
         splash_pix = QtGui.QPixmap(r'images\\Gsolvelog.png')
-        splash = QtGui.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
+        splash = QtWidgets.QSplashScreen(splash_pix, QtCore.Qt.WindowStaysOnTopHint)
         splash.setMask(splash_pix.mask())
         splash.show()
         app.processEvents()
@@ -64,11 +65,11 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         
         for i in range(0,N):
             self.CalibrationTabView.setItem(i, 0,
-                        QtGui.QTableWidgetItem(str(CalTab.cell(i,0).value)))
+                        QtWidgets.QTableWidgetItem(str(CalTab.cell(i,0).value)))
             self.CalibrationTabView.setItem(i, 1,
-                        QtGui.QTableWidgetItem(str(CalTab.cell(i,1).value)))
+                        QtWidgets.QTableWidgetItem(str(CalTab.cell(i,1).value)))
             self.CalibrationTabView.setItem(i, 2,
-                        QtGui.QTableWidgetItem(str(CalTab.cell(i,2).value)))
+                        QtWidgets.QTableWidgetItem(str(CalTab.cell(i,2).value)))
         # Initialise Absolute Gravity Stations with data base
         ABSGw = xlrd.open_workbook(os.path.join('Absolute Gravity/Absolute Gravity.xls'))  
         AbsGDATA = ABSGw.sheet_by_name('Sheet1')
@@ -77,13 +78,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
 
         for i in range(0, N2):
             self.AbsGTabview.setItem(i, 0,
-                        QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,0).value)))
+                        QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,0).value)))
             self.AbsGTabview.setItem(i, 1,
-                        QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,1).value)))
+                        QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,1).value)))
             self.AbsGTabview.setItem(i, 2,
-                        QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,2).value)))
+                        QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,2).value)))
             self.AbsGTabview.setItem(i, 3,
-                        QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,3).value)))
+                        QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,3).value)))
         
 
     def main(self):
@@ -155,15 +156,15 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             Minute = self.SurveyDataTab.item(i,9)
             Dial = self.SurveyDataTab.item(i,4)
             Loop = self.SurveyDataTab.item(i,10)
-            w.get_sheet(0).write(int(i+1),0,str(QtGui.QTableWidgetItem.text(Name)))        
-            w.get_sheet(0).write(int(i+1),1,float(str(QtGui.QTableWidgetItem.text(Day))))
-            w.get_sheet(0).write(int(i+1),2,float(str(QtGui.QTableWidgetItem.text(Month))))        
-            w.get_sheet(0).write(int(i+1),3,float(str(QtGui.QTableWidgetItem.text(Year))))
-            w.get_sheet(0).write(int(i+1),4,float(str(QtGui.QTableWidgetItem.text(Hour))))
-            w.get_sheet(0).write(int(i+1),5,float(str(QtGui.QTableWidgetItem.text(Minute))))
-            w.get_sheet(0).write(int(i+1),6,float(str(QtGui.QTableWidgetItem.text(Dial))))
-            w.get_sheet(0).write(int(i+1),7,float(str(QtGui.QTableWidgetItem.text(Loop))))  
-            SurveyedNames[i] = str(QtGui.QTableWidgetItem.text(Name))
+            w.get_sheet(0).write(int(i+1),0,str(QtWidgets.QTableWidgetItem.text(Name)))        
+            w.get_sheet(0).write(int(i+1),1,float(str(QtWidgets.QTableWidgetItem.text(Day))))
+            w.get_sheet(0).write(int(i+1),2,float(str(QtWidgets.QTableWidgetItem.text(Month))))        
+            w.get_sheet(0).write(int(i+1),3,float(str(QtWidgets.QTableWidgetItem.text(Year))))
+            w.get_sheet(0).write(int(i+1),4,float(str(QtWidgets.QTableWidgetItem.text(Hour))))
+            w.get_sheet(0).write(int(i+1),5,float(str(QtWidgets.QTableWidgetItem.text(Minute))))
+            w.get_sheet(0).write(int(i+1),6,float(str(QtWidgets.QTableWidgetItem.text(Dial))))
+            w.get_sheet(0).write(int(i+1),7,float(str(QtWidgets.QTableWidgetItem.text(Loop))))  
+            SurveyedNames[i] = str(QtWidgets.QTableWidgetItem.text(Name))
             
         SiteNames = np.unique(SurveyedNames)
         Nlocs = np.max(np.shape(SiteNames))
@@ -172,13 +173,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         for i in range(0,Nlocs):
             for j in range(0,Nrows):
                 Namesj = self.SurveyDataTab.item(j,0)
-                Namej = str(QtGui.QTableWidgetItem.text(Namesj))
+                Namej = str(QtWidgets.QTableWidgetItem.text(Namesj))
                 Latsj = self.SurveyDataTab.item(j,1)
-                Latj = float(str(QtGui.QTableWidgetItem.text(Latsj)))
+                Latj = float(str(QtWidgets.QTableWidgetItem.text(Latsj)))
                 Longsj = self.SurveyDataTab.item(j,2)
-                Longj = float(str(QtGui.QTableWidgetItem.text(Longsj)))
+                Longj = float(str(QtWidgets.QTableWidgetItem.text(Longsj)))
                 Elevsj = self.SurveyDataTab.item(j,3)
-                Elevj = float(str(QtGui.QTableWidgetItem.text(Elevsj)))
+                Elevj = float(str(QtWidgets.QTableWidgetItem.text(Elevsj)))
                 if Namej == SiteNames[i]:
                     w.get_sheet(1).write(int(i+1),0,Namej)
                     w.get_sheet(1).write(int(i+1),1,Latj)
@@ -193,7 +194,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         '\n'+'\n'+'Created by Jack McCubbine and Grant O\'Brien,'+'\n'+ \
         'May 2014-2016.',\
         'About', 0)
-        print sw
+        print(sw)
 
               
     def Newsurvey(self):
@@ -217,7 +218,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         
         if sw == 1:
             #raise SystemExit
-            print "Goodbye"
+            print("Goodbye")
             os._exit(1)
             
             
@@ -244,9 +245,9 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                 TIDE = self.DetailedResultsTabview.item(i, 11)
                 LoopNames = self.DetailedResultsTabview.item(i, 0)
                     
-                LoopNamesp[k2] = str(QtGui.QTableWidgetItem.text(LoopNames))
-                CDialp[k2] = float(QtGui.QTableWidgetItem.text(CDial))
-                TIDEp[k2] = float(QtGui.QTableWidgetItem.text(TIDE))
+                LoopNamesp[k2] = str(QtWidgets.QTableWidgetItem.text(LoopNames))
+                CDialp[k2] = float(QtWidgets.QTableWidgetItem.text(CDial))
+                TIDEp[k2] = float(QtWidgets.QTableWidgetItem.text(TIDE))
                 TIMp[k2] = TIM[i]
                 
             NrowsAll = self.MainResultsTabview.rowCount()
@@ -256,13 +257,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                 for j in range(0, int(NrowsAll)):
                     NameAllj = self.MainResultsTabview.item(j, 0)
                     Grav = self.MainResultsTabview.item(j, 1)
-                    NameAlljreal = str(QtGui.QTableWidgetItem.text(NameAllj))
-                    GravAlljreal = float(QtGui.QTableWidgetItem.text(Grav))
+                    NameAlljreal = str(QtWidgets.QTableWidgetItem.text(NameAllj))
+                    GravAlljreal = float(QtWidgets.QTableWidgetItem.text(Grav))
                     if NameAlljreal == LoopNamesp[i]:
                         GRAV[i] = GravAlljreal
                         
             Drift = self.DriftTabview.item(0, 1)  
-            Driftp = -float(QtGui.QTableWidgetItem.text(Drift)) 
+            Driftp = -float(QtWidgets.QTableWidgetItem.text(Drift)) 
             
             Betat = self.BetaOut
             Beta = -float(QtGui.QLineEdit.text(Betat))
@@ -293,7 +294,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             k = 0
             for i in range(0, int(Nrows)):
                 Loopqt = self.DetailedResultsTabview.item(i, 12)
-                Loop = str(QtGui.QTableWidgetItem.text(Loopqt))  
+                Loop = str(QtWidgets.QTableWidgetItem.text(Loopqt))  
                 if Loop == Loopp:
                     k = k+1
             CDialp = np.zeros((k, 1))  
@@ -304,16 +305,16 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             k2 = -1
             for i in range(0, int(Nrows)):
                 Loopqt = self.DetailedResultsTabview.item(i, 12)
-                Loop = str(QtGui.QTableWidgetItem.text(Loopqt))  
+                Loop = str(QtWidgets.QTableWidgetItem.text(Loopqt))  
                 if Loop == Loopp:
                     k2 = k2+1
                     CDial = self.DetailedResultsTabview.item(i, 5)
                     TIDE = self.DetailedResultsTabview.item(i, 11)
                     LoopNames = self.DetailedResultsTabview.item(i, 0)
                     
-                    LoopNamesp[k2] = str(QtGui.QTableWidgetItem.text(LoopNames))
-                    CDialp[k2] = float(QtGui.QTableWidgetItem.text(CDial))
-                    TIDEp[k2] = float(QtGui.QTableWidgetItem.text(TIDE))
+                    LoopNamesp[k2] = str(QtWidgets.QTableWidgetItem.text(LoopNames))
+                    CDialp[k2] = float(QtWidgets.QTableWidgetItem.text(CDial))
+                    TIDEp[k2] = float(QtWidgets.QTableWidgetItem.text(TIDE))
                     TIMp[k2] = TIM[i]
             
             NrowsAll = self.MainResultsTabview.rowCount()
@@ -322,13 +323,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                 for j in range(0, int(NrowsAll)):
                     NameAllj = self.MainResultsTabview.item(j, 0)
                     Grav = self.MainResultsTabview.item(j, 1)
-                    NameAlljreal = str(QtGui.QTableWidgetItem.text(NameAllj))
-                    GravAlljreal = float(QtGui.QTableWidgetItem.text(Grav))
+                    NameAlljreal = str(QtWidgets.QTableWidgetItem.text(NameAllj))
+                    GravAlljreal = float(QtWidgets.QTableWidgetItem.text(Grav))
                     if NameAlljreal == LoopNamesp[i]:
                         GRAV[i] = GravAlljreal
                         
             Drift = self.DriftTabview.item(int(Loopp)-1, 1)  
-            Driftp = -float(QtGui.QTableWidgetItem.text(Drift)) 
+            Driftp = -float(QtWidgets.QTableWidgetItem.text(Drift)) 
             
             Betat = self.BetaOut
             Beta = -float(QtGui.QLineEdit.text(Betat))
@@ -366,7 +367,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             RESp = np.zeros((Nrows, 1))
             for i in range(0,int(Nrows)):
                 Residual = self.DetailedResultsTabview.item(i, 13)
-                RESp[i] = float(QtGui.QTableWidgetItem.text(Residual))
+                RESp[i] = float(QtWidgets.QTableWidgetItem.text(Residual))
             fig = matplotlib.pyplot.figure()
             ax = fig.add_subplot(111)
             x = np.sort(RESp, axis=0)
@@ -381,18 +382,18 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             k = 0
             for i in range(0, int(Nrows)):
                 Loopqt = self.DetailedResultsTabview.item(i, 12)
-                Loop = str(QtGui.QTableWidgetItem.text(Loopqt))  
+                Loop = str(QtWidgets.QTableWidgetItem.text(Loopqt))  
                 if Loop == Loopp:
                     k = k+1
             RESp = np.zeros((k, 1))            
             k2 = -1
             for i in range(0, int(Nrows)):
                 Loopqt = self.DetailedResultsTabview.item(i, 12)
-                Loop = str(QtGui.QTableWidgetItem.text(Loopqt))  
+                Loop = str(QtWidgets.QTableWidgetItem.text(Loopqt))  
                 if Loop == Loopp:
                     k2 = k2+1
                     Residual = self.DetailedResultsTabview.item(i, 13)
-                    RESp[k2] = float(QtGui.QTableWidgetItem.text(Residual))
+                    RESp[k2] = float(QtWidgets.QTableWidgetItem.text(Residual))
             fig = matplotlib.pyplot.figure()
             ax = fig.add_subplot(111)
             x = np.sort(RESp, axis=0)
@@ -433,17 +434,17 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             Hour = self.SurveyDataTab.item(i, 8)
             Minute = self.SurveyDataTab.item(i, 9)
             Loop = self.SurveyDataTab.item(i, 10)
-            SurveyedNames[i] = QtGui.QTableWidgetItem.text(SurveyedName)
-            Lats[i] = float(QtGui.QTableWidgetItem.text(Lat))
-            Longs[i] = float(QtGui.QTableWidgetItem.text(Long))
-            Elevs[i] = float(QtGui.QTableWidgetItem.text(Elev))
-            DialReadings[i] = float(QtGui.QTableWidgetItem.text(DialReading))
-            Days[i] = float(QtGui.QTableWidgetItem.text(Day))
-            Months[i] = float(QtGui.QTableWidgetItem.text(Month))
-            Years[i] = float(QtGui.QTableWidgetItem.text(Year))
-            Hours[i] = float(QtGui.QTableWidgetItem.text(Hour))
-            Minutes[i] = float(QtGui.QTableWidgetItem.text(Minute))
-            Loops[i] = float(QtGui.QTableWidgetItem.text(Loop))
+            SurveyedNames[i] = QtWidgets.QTableWidgetItem.text(SurveyedName)
+            Lats[i] = float(QtWidgets.QTableWidgetItem.text(Lat))
+            Longs[i] = float(QtWidgets.QTableWidgetItem.text(Long))
+            Elevs[i] = float(QtWidgets.QTableWidgetItem.text(Elev))
+            DialReadings[i] = float(QtWidgets.QTableWidgetItem.text(DialReading))
+            Days[i] = float(QtWidgets.QTableWidgetItem.text(Day))
+            Months[i] = float(QtWidgets.QTableWidgetItem.text(Month))
+            Years[i] = float(QtWidgets.QTableWidgetItem.text(Year))
+            Hours[i] = float(QtWidgets.QTableWidgetItem.text(Hour))
+            Minutes[i] = float(QtWidgets.QTableWidgetItem.text(Minute))
+            Loops[i] = float(QtWidgets.QTableWidgetItem.text(Loop))
             if self.SurveyDataTab.isItemSelected(SurveyedName) == False:
                 k = k+1
 
@@ -455,27 +456,27 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             if self.SurveyDataTab.isItemSelected(x) == False:
                 k1 = k1+1
                 self.SurveyDataTab.setItem(int(k1),0,
-                        QtGui.QTableWidgetItem(str(SurveyedNames[i])))
+                        QtWidgets.QTableWidgetItem(str(SurveyedNames[i])))
                 self.SurveyDataTab.setItem(int(k1),1,
-                        QtGui.QTableWidgetItem(str(float(Lats[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Lats[i]))))
                 self.SurveyDataTab.setItem(int(k1),2,
-                        QtGui.QTableWidgetItem(str(float(Longs[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Longs[i]))))
                 self.SurveyDataTab.setItem(int(k1),3,
-                        QtGui.QTableWidgetItem(str(float(Elevs[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Elevs[i]))))
                 self.SurveyDataTab.setItem(int(k1),4,
-                        QtGui.QTableWidgetItem(str(float(DialReadings[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(DialReadings[i]))))
                 self.SurveyDataTab.setItem(int(k1),5,
-                        QtGui.QTableWidgetItem(str(float(Days[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Days[i]))))
                 self.SurveyDataTab.setItem(int(k1),6,
-                        QtGui.QTableWidgetItem(str(float(Months[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Months[i]))))
                 self.SurveyDataTab.setItem(int(k1),7,
-                        QtGui.QTableWidgetItem(str(float(Years[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Years[i]))))
                 self.SurveyDataTab.setItem(int(k1),8,
-                        QtGui.QTableWidgetItem(str(float(Hours[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Hours[i]))))
                 self.SurveyDataTab.setItem(int(k1),9,
-                        QtGui.QTableWidgetItem(str(float(Minutes[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Minutes[i]))))
                 self.SurveyDataTab.setItem(int(k1),10,
-                        QtGui.QTableWidgetItem(str(float(Loops[i]))))
+                        QtWidgets.QTableWidgetItem(str(float(Loops[i]))))
 
  
     def ExportDetailedResultstoEx(self):
@@ -542,9 +543,9 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             Drift = self.DriftTabview.item(i, 1)
          #   Weight=self.DetailedResultsTabview.item(i,13)
             w.get_sheet(2).write(int(i+1), 0,
-                        str(QtGui.QTableWidgetItem.text(Name)))        
+                        str(QtWidgets.QTableWidgetItem.text(Name)))        
             w.get_sheet(2).write(int(i+1), 1,
-                        float(str(QtGui.QTableWidgetItem.text(Drift))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Drift))))        
         
         Nrows = self.DetailedResultsTabview.rowCount()
         
@@ -581,35 +582,35 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             Residual = self.DetailedResultsTabview.item(i,13)
          #   Weight=self.DetailedResultsTabview.item(i,13)
             w.get_sheet(0).write(int(i+1),0,
-                        str(QtGui.QTableWidgetItem.text(Name)))        
+                        str(QtWidgets.QTableWidgetItem.text(Name)))        
             w.get_sheet(0).write(int(i+1),1,
-                        float(str(QtGui.QTableWidgetItem.text(Latitude))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Latitude))))        
             w.get_sheet(0).write(int(i+1),2,
-                        float(str(QtGui.QTableWidgetItem.text(Longitude))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Longitude))))        
             w.get_sheet(0).write(int(i+1),3,
-                        float(str(QtGui.QTableWidgetItem.text(Elev))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(Elev))))            
             w.get_sheet(0).write(int(i+1),4,
-                        float(str(QtGui.QTableWidgetItem.text(Dial))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(Dial))))            
             w.get_sheet(0).write(int(i+1),5,
-                        float(str(QtGui.QTableWidgetItem.text(CalibratedDial))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(CalibratedDial))))            
             w.get_sheet(0).write(int(i+1),6,
-                        float(str(QtGui.QTableWidgetItem.text(Day))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(Day))))            
             w.get_sheet(0).write(int(i+1),7,
-                        float(str(QtGui.QTableWidgetItem.text(Month))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(Month))))            
             w.get_sheet(0).write(int(i+1),8,
-                        float(str(QtGui.QTableWidgetItem.text(Year))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(Year))))            
             w.get_sheet(0).write(int(i+1),9,
-                        float(str(QtGui.QTableWidgetItem.text(Hour))))            
+                        float(str(QtWidgets.QTableWidgetItem.text(Hour))))            
             w.get_sheet(0).write(int(i+1),10,
-                        float(str(QtGui.QTableWidgetItem.text(Minute))))          
+                        float(str(QtWidgets.QTableWidgetItem.text(Minute))))          
             w.get_sheet(0).write(int(i+1),11,
-                        float(str(QtGui.QTableWidgetItem.text(Tidal))))          
+                        float(str(QtWidgets.QTableWidgetItem.text(Tidal))))          
             w.get_sheet(0).write(int(i+1),12,
-                        float(str(QtGui.QTableWidgetItem.text(Loop))))          
+                        float(str(QtWidgets.QTableWidgetItem.text(Loop))))          
             w.get_sheet(0).write(int(i+1),13,
-                        float(str(QtGui.QTableWidgetItem.text(Residual))))      
+                        float(str(QtWidgets.QTableWidgetItem.text(Residual))))      
           #  w.get_sheet(0).write(int(i+1),13,
-          #              str(QtGui.QTableWidgetItem.text(Weight)))                           
+          #              str(QtWidgets.QTableWidgetItem.text(Weight)))                           
 
         Nrows = self.MainResultsTabview.rowCount()
         w.get_sheet(1).write(0, 0, str('Name'))
@@ -635,25 +636,25 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             FAeff = self.GravityReductionsTab.item(i,6)
             FAanom = self.GravityReductionsTab.item(i,7)
             w.get_sheet(1).write(int(i+1),0,
-                        str(QtGui.QTableWidgetItem.text(Name)))        
+                        str(QtWidgets.QTableWidgetItem.text(Name)))        
             w.get_sheet(1).write(int(i+1),1,
-                        float(str(QtGui.QTableWidgetItem.text(Grav))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Grav))))        
             w.get_sheet(1).write(int(i+1),2,
-                        float(str(QtGui.QTableWidgetItem.text(SE))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(SE))))        
             w.get_sheet(1).write(int(i+1),3,
-                        float(str(QtGui.QTableWidgetItem.text(NO))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(NO))))        
             w.get_sheet(1).write(int(i+1),4,
-                        float(str(QtGui.QTableWidgetItem.text(Lat))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Lat))))        
             w.get_sheet(1).write(int(i+1),5,
-                        float(str(QtGui.QTableWidgetItem.text(Long))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Long))))        
             w.get_sheet(1).write(int(i+1),6,
-                        float(str(QtGui.QTableWidgetItem.text(Elev))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Elev))))        
             w.get_sheet(1).write(int(i+1),7,
-                        float(str(QtGui.QTableWidgetItem.text(Ellg))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(Ellg))))        
             w.get_sheet(1).write(int(i+1),8,
-                        float(str(QtGui.QTableWidgetItem.text(FAeff))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(FAeff))))        
             w.get_sheet(1).write(int(i+1),9,
-                        float(str(QtGui.QTableWidgetItem.text(FAanom))))                           
+                        float(str(QtWidgets.QTableWidgetItem.text(FAanom))))                           
 
         w.save(filename+'.xls')
               
@@ -679,13 +680,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             SE = self.MainResultsTabview.item(i,2)
             NO = self.MainResultsTabview.item(i,3)
             w.get_sheet(0).write(int(i+1),0,
-                        str(QtGui.QTableWidgetItem.text(Name)))        
+                        str(QtWidgets.QTableWidgetItem.text(Name)))        
             w.get_sheet(0).write(int(i+1),1,
-                        float(str(QtGui.QTableWidgetItem.text(Grav))))
+                        float(str(QtWidgets.QTableWidgetItem.text(Grav))))
             w.get_sheet(0).write(int(i+1),2,
-                        float(str(QtGui.QTableWidgetItem.text(SE))))        
+                        float(str(QtWidgets.QTableWidgetItem.text(SE))))        
             w.get_sheet(0).write(int(i+1),3,
-                        float(str(QtGui.QTableWidgetItem.text(NO))))
+                        float(str(QtWidgets.QTableWidgetItem.text(NO))))
                            
         w.save(filename+'.xls')
      
@@ -699,8 +700,8 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         for i in range(0, Nrows):
             Name = self.SurveyTies.item(i,0)
             Grav = self.SurveyTies.item(i,1)
-            Names[i] = QtGui.QTableWidgetItem.text(Name)
-            Gravs[i] = float(QtGui.QTableWidgetItem.text(Grav))
+            Names[i] = QtWidgets.QTableWidgetItem.text(Name)
+            Gravs[i] = float(QtWidgets.QTableWidgetItem.text(Grav))
             if self.SurveyTies.isItemSelected(Name) == False:
                 k = k+1
 
@@ -711,9 +712,9 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             if self.SurveyTies.isItemSelected(x) == False:
                 k1 = k1+1
                 self.SurveyTies.setItem(int(k1),0, 
-                                QtGui.QTableWidgetItem(str(Names[i])))
+                                QtWidgets.QTableWidgetItem(str(Names[i])))
                 self.SurveyTies.setItem(int(k1),1,
-                                QtGui.QTableWidgetItem(str(float(Gravs[i]))))
+                                QtWidgets.QTableWidgetItem(str(float(Gravs[i]))))
 
 
     def SaveAllAbsGTie(self):
@@ -725,10 +726,10 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             Grav = self.AbsGTabview.item(i,1)
             Lat = self.AbsGTabview.item(i,2)
             Long = self.AbsGTabview.item(i,3)
-            w.get_sheet(0).write(i,0,str(QtGui.QTableWidgetItem.text(Name)))        
-            w.get_sheet(0).write(i,1,str(QtGui.QTableWidgetItem.text(Grav)))        
-            w.get_sheet(0).write(i,2,str(QtGui.QTableWidgetItem.text(Lat)))        
-            w.get_sheet(0).write(i,3,str(QtGui.QTableWidgetItem.text(Long)))
+            w.get_sheet(0).write(i,0,str(QtWidgets.QTableWidgetItem.text(Name)))        
+            w.get_sheet(0).write(i,1,str(QtWidgets.QTableWidgetItem.text(Grav)))        
+            w.get_sheet(0).write(i,2,str(QtWidgets.QTableWidgetItem.text(Lat)))        
+            w.get_sheet(0).write(i,3,str(QtWidgets.QTableWidgetItem.text(Long)))
                            
         w.save('Absolute Gravity/Absolute Gravity.xls')
  
@@ -754,7 +755,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
 ######################################################################################################
 
     def SolveIT(self):
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         # Get the survey data from the table
         Nmeasurements = self.SurveyDataTab.rowCount()
         Days = np.zeros(Nmeasurements) 
@@ -784,17 +785,17 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             Minutesi=self.SurveyDataTab.item(i,9)
             Loopsi=self.SurveyDataTab.item(i,10)
 
-            SurveyedNames[i]=str(QtGui.QTableWidgetItem.text(SurveyedNamesi))
-            MeasurementLats[i]=float(QtGui.QTableWidgetItem.text(Latsi))
-            MeasurementLongs[i]=float(QtGui.QTableWidgetItem.text(Longsi))
-            MeasurementElevs[i]=float(QtGui.QTableWidgetItem.text(Elevsi))
-            DialReadings[i]=float(QtGui.QTableWidgetItem.text(DialReadingsi))
-            Days[i]=float(QtGui.QTableWidgetItem.text(Daysi))
-            Months[i]=float(QtGui.QTableWidgetItem.text(Monthsi))
-            Years[i]=float(QtGui.QTableWidgetItem.text(Yearsi))
-            Hours[i]=float(QtGui.QTableWidgetItem.text(Hoursi))
-            Minutes[i]=float(QtGui.QTableWidgetItem.text(Minutesi))
-            Loops[i]=float(QtGui.QTableWidgetItem.text(Loopsi))
+            SurveyedNames[i]=str(QtWidgets.QTableWidgetItem.text(SurveyedNamesi))
+            MeasurementLats[i]=float(QtWidgets.QTableWidgetItem.text(Latsi))
+            MeasurementLongs[i]=float(QtWidgets.QTableWidgetItem.text(Longsi))
+            MeasurementElevs[i]=float(QtWidgets.QTableWidgetItem.text(Elevsi))
+            DialReadings[i]=float(QtWidgets.QTableWidgetItem.text(DialReadingsi))
+            Days[i]=float(QtWidgets.QTableWidgetItem.text(Daysi))
+            Months[i]=float(QtWidgets.QTableWidgetItem.text(Monthsi))
+            Years[i]=float(QtWidgets.QTableWidgetItem.text(Yearsi))
+            Hours[i]=float(QtWidgets.QTableWidgetItem.text(Hoursi))
+            Minutes[i]=float(QtWidgets.QTableWidgetItem.text(Minutesi))
+            Loops[i]=float(QtWidgets.QTableWidgetItem.text(Loopsi))
         
         SiteNames=np.unique(SurveyedNames)
         # Get the tie data from the table
@@ -805,8 +806,8 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             
             TIENamesi=self.SurveyTies.item(i,0)
             TIEValsi=self.SurveyTies.item(i,1)
-            TIENames[i]=str(QtGui.QTableWidgetItem.text(TIENamesi))
-            TIEVals[i]=float(QtGui.QTableWidgetItem.text(TIEValsi))
+            TIENames[i]=str(QtWidgets.QTableWidgetItem.text(TIENamesi))
+            TIEVals[i]=float(QtWidgets.QTableWidgetItem.text(TIEValsi))
             
         # Calculate tidal effects TIDAL.TIDEFF(Latitude,Longitude,Day,Month,Year,Hour,Minute)
         # And calculate the time in minutes for the drift analysis
@@ -981,7 +982,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             [ABSG2,RES2,SiteVar2,Beta2,Drift2,BL]=GSOLVER.GsolverM3Beta(TideFreeCalDial2,SurveyedNames2,SiteNames2,TIM2,TIENames,TIEVals,Loops2,UL,CalDials2)
             self.BetaOut.setText(str(float(-Beta2)))
         TIM=TIM2            
-        global TIM
+        # global TIM
 #######################################################################################################
 #######################################################################################################        
         
@@ -1000,64 +1001,64 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         self.MainResultsTabview.setRowCount(Nsites)
         self.GravityReductionsTab.setRowCount(Nsites)
         for i in range(0,Nsites):
-            self.MainResultsTabview.setItem(i, 0, QtGui.QTableWidgetItem(str(SiteNames2[i])))
-            self.MainResultsTabview.setItem(i, 1, QtGui.QTableWidgetItem(str(float(ABSG2[i]))))            
-            self.GravityReductionsTab.setItem(i, 0, QtGui.QTableWidgetItem(str(SiteNames2[i])))
-            self.GravityReductionsTab.setItem(i, 1, QtGui.QTableWidgetItem(str(float(ABSG2[i]))))
+            self.MainResultsTabview.setItem(i, 0, QtWidgets.QTableWidgetItem(str(SiteNames2[i])))
+            self.MainResultsTabview.setItem(i, 1, QtWidgets.QTableWidgetItem(str(float(ABSG2[i]))))            
+            self.GravityReductionsTab.setItem(i, 0, QtWidgets.QTableWidgetItem(str(SiteNames2[i])))
+            self.GravityReductionsTab.setItem(i, 1, QtWidgets.QTableWidgetItem(str(float(ABSG2[i]))))
             TU=0  
             for j in range(0,Nties):
                 if SiteNames[i]==TIENames[j] and M==3:
                     TU=1
             if TU==1:
-                self.MainResultsTabview.setItem(i, 2, QtGui.QTableWidgetItem(str(np.sqrt(0))))
+                self.MainResultsTabview.setItem(i, 2, QtWidgets.QTableWidgetItem(str(np.sqrt(0))))
             else:
-                self.MainResultsTabview.setItem(i, 2, QtGui.QTableWidgetItem(str(SE[i])))
+                self.MainResultsTabview.setItem(i, 2, QtWidgets.QTableWidgetItem(str(SE[i])))
             count=0
             for j in range(0,Nmeasurements2):
                 if SiteNames2[i]==SurveyedNames2[j]:
                     count=count+1
                 if SiteNames2[i]==SurveyedNames2[j]:
-                    self.GravityReductionsTab.setItem(i, 2, QtGui.QTableWidgetItem(str(float(MeasurementLats2[j]))))
-                    self.GravityReductionsTab.setItem(i, 3, QtGui.QTableWidgetItem(str(float(MeasurementLongs2[j]))))
-                    self.GravityReductionsTab.setItem(i, 4, QtGui.QTableWidgetItem(str(float(MeasurementElevs2[j]))))
+                    self.GravityReductionsTab.setItem(i, 2, QtWidgets.QTableWidgetItem(str(float(MeasurementLats2[j]))))
+                    self.GravityReductionsTab.setItem(i, 3, QtWidgets.QTableWidgetItem(str(float(MeasurementLongs2[j]))))
+                    self.GravityReductionsTab.setItem(i, 4, QtWidgets.QTableWidgetItem(str(float(MeasurementElevs2[j]))))
                     Latj=MeasurementLats2[j]
                     Ellj=MeasurementElevs2[j]
             Ellg=Gamma*((1+k*np.sin(Latj*np.pi/180)**2)/np.sqrt(1-e2*np.sin(Latj*np.pi/180)**2))
             FAEff=-0.3086*Ellj               
-            self.GravityReductionsTab.setItem(i, 5, QtGui.QTableWidgetItem(str(float(Ellg))))
-            self.GravityReductionsTab.setItem(i, 6, QtGui.QTableWidgetItem(str(float(FAEff))))
-            self.GravityReductionsTab.setItem(i, 7, QtGui.QTableWidgetItem(str(float(ABSG2[i]-FAEff-Ellg))))
-            self.MainResultsTabview.setItem(i, 3, QtGui.QTableWidgetItem(str(int(count))))
+            self.GravityReductionsTab.setItem(i, 5, QtWidgets.QTableWidgetItem(str(float(Ellg))))
+            self.GravityReductionsTab.setItem(i, 6, QtWidgets.QTableWidgetItem(str(float(FAEff))))
+            self.GravityReductionsTab.setItem(i, 7, QtWidgets.QTableWidgetItem(str(float(ABSG2[i]-FAEff-Ellg))))
+            self.MainResultsTabview.setItem(i, 3, QtWidgets.QTableWidgetItem(str(int(count))))
         
         self.DetailedResultsTabview.setRowCount(Nmeasurements2+1)    
         for i in range(0,Nmeasurements2+1):
-            self.DetailedResultsTabview.setItem(i, 0, QtGui.QTableWidgetItem(str(SurveyedNames2[i])))
-            self.DetailedResultsTabview.setItem(i, 1, QtGui.QTableWidgetItem(str(MeasurementLats2[i])))
-            self.DetailedResultsTabview.setItem(i, 2, QtGui.QTableWidgetItem(str(MeasurementLongs2[i])))
-            self.DetailedResultsTabview.setItem(i, 3, QtGui.QTableWidgetItem(str(MeasurementElevs2[i])))
-            self.DetailedResultsTabview.setItem(i, 4, QtGui.QTableWidgetItem(str(DialReadings2[i])))
-            self.DetailedResultsTabview.setItem(i, 5, QtGui.QTableWidgetItem(str(np.round(CalDials2[i]*1000)/1000)))
-            self.DetailedResultsTabview.setItem(i, 6, QtGui.QTableWidgetItem(str(int(Days2[i]))))
-            self.DetailedResultsTabview.setItem(i, 7, QtGui.QTableWidgetItem(str(int(Months2[i]))))
-            self.DetailedResultsTabview.setItem(i, 8, QtGui.QTableWidgetItem(str(int(Years2[i]))))
-            self.DetailedResultsTabview.setItem(i, 9, QtGui.QTableWidgetItem(str(int(Hours2[i]))))
-            self.DetailedResultsTabview.setItem(i, 10, QtGui.QTableWidgetItem(str(int(Minutes2[i]))))
-            self.DetailedResultsTabview.setItem(i, 11, QtGui.QTableWidgetItem(str(TidalEffects2[i])))
-            self.DetailedResultsTabview.setItem(i, 12, QtGui.QTableWidgetItem(str(int(Loops2[i]))))
-            self.DetailedResultsTabview.setItem(i, 13, QtGui.QTableWidgetItem(str(float(RES2[i]))))
+            self.DetailedResultsTabview.setItem(i, 0, QtWidgets.QTableWidgetItem(str(SurveyedNames2[i])))
+            self.DetailedResultsTabview.setItem(i, 1, QtWidgets.QTableWidgetItem(str(MeasurementLats2[i])))
+            self.DetailedResultsTabview.setItem(i, 2, QtWidgets.QTableWidgetItem(str(MeasurementLongs2[i])))
+            self.DetailedResultsTabview.setItem(i, 3, QtWidgets.QTableWidgetItem(str(MeasurementElevs2[i])))
+            self.DetailedResultsTabview.setItem(i, 4, QtWidgets.QTableWidgetItem(str(DialReadings2[i])))
+            self.DetailedResultsTabview.setItem(i, 5, QtWidgets.QTableWidgetItem(str(np.round(CalDials2[i]*1000)/1000)))
+            self.DetailedResultsTabview.setItem(i, 6, QtWidgets.QTableWidgetItem(str(int(Days2[i]))))
+            self.DetailedResultsTabview.setItem(i, 7, QtWidgets.QTableWidgetItem(str(int(Months2[i]))))
+            self.DetailedResultsTabview.setItem(i, 8, QtWidgets.QTableWidgetItem(str(int(Years2[i]))))
+            self.DetailedResultsTabview.setItem(i, 9, QtWidgets.QTableWidgetItem(str(int(Hours2[i]))))
+            self.DetailedResultsTabview.setItem(i, 10, QtWidgets.QTableWidgetItem(str(int(Minutes2[i]))))
+            self.DetailedResultsTabview.setItem(i, 11, QtWidgets.QTableWidgetItem(str(TidalEffects2[i])))
+            self.DetailedResultsTabview.setItem(i, 12, QtWidgets.QTableWidgetItem(str(int(Loops2[i]))))
+            self.DetailedResultsTabview.setItem(i, 13, QtWidgets.QTableWidgetItem(str(float(RES2[i]))))
             
-            #self.MainResultsTabview.setItem(i, 3, QtGui.QTableWidgetItem(str()))
+            #self.MainResultsTabview.setItem(i, 3, QtWidgets.QTableWidgetItem(str()))
         Nloops=np.max(np.unique(Loops2))
         
         if UL==1:
             self.DriftTabview.setRowCount(Nloops) 
             for i in range(0,int(Nloops)):
-                self.DriftTabview.setItem(i, 0, QtGui.QTableWidgetItem(str(np.round(i+1))))
-                self.DriftTabview.setItem(i, 1, QtGui.QTableWidgetItem(str(float(np.dot(60,Drift2[i])))))
+                self.DriftTabview.setItem(i, 0, QtWidgets.QTableWidgetItem(str(np.round(i+1))))
+                self.DriftTabview.setItem(i, 1, QtWidgets.QTableWidgetItem(str(float(np.dot(60,Drift2[i])))))
         if UL==0:
             self.DriftTabview.setRowCount(1) 
-            self.DriftTabview.setItem(0, 0, QtGui.QTableWidgetItem(str(1)))
-            self.DriftTabview.setItem(0, 1, QtGui.QTableWidgetItem(str(float(60*Drift2))))
+            self.DriftTabview.setItem(0, 0, QtWidgets.QTableWidgetItem(str(1)))
+            self.DriftTabview.setItem(0, 1, QtWidgets.QTableWidgetItem(str(float(60*Drift2))))
             
         uloops=np.unique(Loops2)
         self.LoopCDFSel.clear()
@@ -1071,8 +1072,8 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             self.LoopSel_2.clear()
             self.LoopSel_2.addItem(str('All'))
             
-        global BL
-        QtGui.QApplication.restoreOverrideCursor()
+        # global BL
+        QtWidgets.QApplication.restoreOverrideCursor()
 ######################################################################################################
 ############################## End of CORE CALCULATION ###############################################
 ######################################################################################################
@@ -1085,14 +1086,14 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             x=self.AbsGTabview.item(i,0)
             if self.AbsGTabview.isItemSelected(x):
                 k=k+1
-                Names=QtGui.QTableWidgetItem.text(x)
+                Names=QtWidgets.QTableWidgetItem.text(x)
         Names=strs = ["" for x in range(k)]
         k=-1
         for i in range(0,Nrows):
             x=self.AbsGTabview.item(i,0)
             if self.AbsGTabview.isItemSelected(x):
                 k=k+1
-                Names[k]=str(QtGui.QTableWidgetItem.text(x))
+                Names[k]=str(QtWidgets.QTableWidgetItem.text(x))
         
         sw=ctypes.windll.user32.MessageBoxA(0, 'Are you sure you want to remove these ties from the database', 'Warning', 4)
         if sw==6:
@@ -1106,7 +1107,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                 R=0                   
                 x=self.AbsGTabview.item(i,0)
                 for j in range(0,np.size(Names)):
-                          if Names[j]==str(QtGui.QTableWidgetItem.text(x)):
+                          if Names[j]==str(QtWidgets.QTableWidgetItem.text(x)):
                               R=1
                 if R==0:
                     Name=self.AbsGTabview.item(i,0)
@@ -1114,10 +1115,10 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                     Lat=self.AbsGTabview.item(i,2)
                     Long=self.AbsGTabview.item(i,3)
                     k=k+1
-                    w.get_sheet(0).write(k,0,str(QtGui.QTableWidgetItem.text(Name)))        
-                    w.get_sheet(0).write(k,1,str(QtGui.QTableWidgetItem.text(Grav)))        
-                    w.get_sheet(0).write(k,2,str(QtGui.QTableWidgetItem.text(Lat)))        
-                    w.get_sheet(0).write(k,3,str(QtGui.QTableWidgetItem.text(Long)))        
+                    w.get_sheet(0).write(k,0,str(QtWidgets.QTableWidgetItem.text(Name)))        
+                    w.get_sheet(0).write(k,1,str(QtWidgets.QTableWidgetItem.text(Grav)))        
+                    w.get_sheet(0).write(k,2,str(QtWidgets.QTableWidgetItem.text(Lat)))        
+                    w.get_sheet(0).write(k,3,str(QtWidgets.QTableWidgetItem.text(Long)))        
                     
             w.save('Absolute Gravity/Absolute Gravity.xls')
         # Initialise Absolute Gravity Stations with data base
@@ -1127,10 +1128,10 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         self.AbsGTabview.setRowCount(N2)
 
         for i in range(0,N2):
-            self.AbsGTabview.setItem(i, 0, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,0).value)))
-            self.AbsGTabview.setItem(i, 1, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,1).value)))
-            self.AbsGTabview.setItem(i, 2, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,2).value)))
-            self.AbsGTabview.setItem(i, 3, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,3).value)))
+            self.AbsGTabview.setItem(i, 0, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,0).value)))
+            self.AbsGTabview.setItem(i, 1, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,1).value)))
+            self.AbsGTabview.setItem(i, 2, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,2).value)))
+            self.AbsGTabview.setItem(i, 3, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,3).value)))
 
             
     def Import_AbsG_data(self):
@@ -1173,10 +1174,10 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         self.AbsGTabview.setRowCount(N2)
 
         for i in range(0,N2):
-            self.AbsGTabview.setItem(i, 0, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,0).value)))
-            self.AbsGTabview.setItem(i, 1, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,1).value)))
-            self.AbsGTabview.setItem(i, 2, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,2).value)))
-            self.AbsGTabview.setItem(i, 3, QtGui.QTableWidgetItem(str(AbsGDATA.cell(i,3).value)))
+            self.AbsGTabview.setItem(i, 0, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,0).value)))
+            self.AbsGTabview.setItem(i, 1, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,1).value)))
+            self.AbsGTabview.setItem(i, 2, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,2).value)))
+            self.AbsGTabview.setItem(i, 3, QtWidgets.QTableWidgetItem(str(AbsGDATA.cell(i,3).value)))
 
 
     def USE_BETA(self):
@@ -1238,17 +1239,17 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                     MeasurementElev[i]=Elev[j]
         self.SurveyDataTab.setRowCount(Nmeasurements)
         for i in range(0,Nmeasurements):
-            self.SurveyDataTab.setItem(i, 0, QtGui.QTableWidgetItem(str(SurveyedNames[i])))
-            self.SurveyDataTab.setItem(i, 1, QtGui.QTableWidgetItem(str(MeasurementLats[i])))
-            self.SurveyDataTab.setItem(i, 2, QtGui.QTableWidgetItem(str(MeasurementLongs[i])))
-            self.SurveyDataTab.setItem(i, 3, QtGui.QTableWidgetItem(str(MeasurementElev[i])))
-            self.SurveyDataTab.setItem(i, 4, QtGui.QTableWidgetItem(str(DialReadings[i])))
-            self.SurveyDataTab.setItem(i, 5, QtGui.QTableWidgetItem(str(int(Days[i]))))
-            self.SurveyDataTab.setItem(i, 6, QtGui.QTableWidgetItem(str(int(Months[i]))))
-            self.SurveyDataTab.setItem(i, 7, QtGui.QTableWidgetItem(str(int(Years[i]))))
-            self.SurveyDataTab.setItem(i, 8, QtGui.QTableWidgetItem(str(int(Hours[i]))))
-            self.SurveyDataTab.setItem(i, 9, QtGui.QTableWidgetItem(str(int(Minutes[i]))))
-            self.SurveyDataTab.setItem(i, 10, QtGui.QTableWidgetItem(str(int(Loop[i]))))
+            self.SurveyDataTab.setItem(i, 0, QtWidgets.QTableWidgetItem(str(SurveyedNames[i])))
+            self.SurveyDataTab.setItem(i, 1, QtWidgets.QTableWidgetItem(str(MeasurementLats[i])))
+            self.SurveyDataTab.setItem(i, 2, QtWidgets.QTableWidgetItem(str(MeasurementLongs[i])))
+            self.SurveyDataTab.setItem(i, 3, QtWidgets.QTableWidgetItem(str(MeasurementElev[i])))
+            self.SurveyDataTab.setItem(i, 4, QtWidgets.QTableWidgetItem(str(DialReadings[i])))
+            self.SurveyDataTab.setItem(i, 5, QtWidgets.QTableWidgetItem(str(int(Days[i]))))
+            self.SurveyDataTab.setItem(i, 6, QtWidgets.QTableWidgetItem(str(int(Months[i]))))
+            self.SurveyDataTab.setItem(i, 7, QtWidgets.QTableWidgetItem(str(int(Years[i]))))
+            self.SurveyDataTab.setItem(i, 8, QtWidgets.QTableWidgetItem(str(int(Hours[i]))))
+            self.SurveyDataTab.setItem(i, 9, QtWidgets.QTableWidgetItem(str(int(Minutes[i]))))
+            self.SurveyDataTab.setItem(i, 10, QtWidgets.QTableWidgetItem(str(int(Loop[i]))))
  
        
     def Import_Cal_Tab(self):
@@ -1277,13 +1278,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             self.CalibrationTabSelectview.setCurrentIndex(int(NLB))
             self.CalibrationTabView.setRowCount(N)
             self.CalibrationTabView.setColumnCount(3)
-            self.CalibrationTabView.setHorizontalHeaderItem(0, QtGui.QTableWidgetItem("Lower"))
-            self.CalibrationTabView.setHorizontalHeaderItem(1, QtGui.QTableWidgetItem("Upper"))
-            self.CalibrationTabView.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem("Factor"))
+            self.CalibrationTabView.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem("Lower"))
+            self.CalibrationTabView.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem("Upper"))
+            self.CalibrationTabView.setHorizontalHeaderItem(2, QtWidgets.QTableWidgetItem("Factor"))
             for i in range(0,N):
-                self.CalibrationTabView.setItem(i, 0, QtGui.QTableWidgetItem(str(CalTab.cell(i,0).value)))
-                self.CalibrationTabView.setItem(i, 1, QtGui.QTableWidgetItem(str(CalTab.cell(i,1).value)))
-                self.CalibrationTabView.setItem(i, 2, QtGui.QTableWidgetItem(str(CalTab.cell(i,2).value)))
+                self.CalibrationTabView.setItem(i, 0, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,0).value)))
+                self.CalibrationTabView.setItem(i, 1, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,1).value)))
+                self.CalibrationTabView.setItem(i, 2, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,2).value)))
         
             CalTab2=w.add_sheet(str(CalibrationTableName[0]),cell_overwrite_ok=True)
             for i in range(0,N):
@@ -1302,13 +1303,13 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         N=CalTab.nrows
         self.CalibrationTabView.setRowCount(N)
         self.CalibrationTabView.setColumnCount(3)
-        self.CalibrationTabView.setHorizontalHeaderItem(0, QtGui.QTableWidgetItem("Lower"))
-        self.CalibrationTabView.setHorizontalHeaderItem(1, QtGui.QTableWidgetItem("Upper"))
-        self.CalibrationTabView.setHorizontalHeaderItem(2, QtGui.QTableWidgetItem("Factor"))
+        self.CalibrationTabView.setHorizontalHeaderItem(0, QtWidgets.QTableWidgetItem("Lower"))
+        self.CalibrationTabView.setHorizontalHeaderItem(1, QtWidgets.QTableWidgetItem("Upper"))
+        self.CalibrationTabView.setHorizontalHeaderItem(2, QtWidgets.QTableWidgetItem("Factor"))
         for i in range(0,N):
-            self.CalibrationTabView.setItem(i, 0, QtGui.QTableWidgetItem(str(CalTab.cell(i,0).value)))
-            self.CalibrationTabView.setItem(i, 1, QtGui.QTableWidgetItem(str(CalTab.cell(i,1).value)))
-            self.CalibrationTabView.setItem(i, 2, QtGui.QTableWidgetItem(str(CalTab.cell(i,2).value)))
+            self.CalibrationTabView.setItem(i, 0, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,0).value)))
+            self.CalibrationTabView.setItem(i, 1, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,1).value)))
+            self.CalibrationTabView.setItem(i, 2, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,2).value)))
 
         
     def Remove_Cal_Tab(self):        
@@ -1351,9 +1352,9 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             self.CalibrationTabView.setRowCount(N)
             self.CalibrationTabView.setColumnCount(3)
             for i in range(0,N):
-                self.CalibrationTabView.setItem(i, 0, QtGui.QTableWidgetItem(str(CalTab.cell(i,0).value)))
-                self.CalibrationTabView.setItem(i, 1, QtGui.QTableWidgetItem(str(CalTab.cell(i,1).value)))
-                self.CalibrationTabView.setItem(i, 2, QtGui.QTableWidgetItem(str(CalTab.cell(i,2).value)))
+                self.CalibrationTabView.setItem(i, 0, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,0).value)))
+                self.CalibrationTabView.setItem(i, 1, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,1).value)))
+                self.CalibrationTabView.setItem(i, 2, QtWidgets.QTableWidgetItem(str(CalTab.cell(i,2).value)))
 
      
     def AddNewAbsTieForSolve(self):
@@ -1364,7 +1365,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             
             for i in range(0,Nmeasurements):
                 x=self.SurveyDataTab.item(i,0)
-                SurveyedNamesAll[i]=str(QtGui.QTableWidgetItem.text(x))
+                SurveyedNamesAll[i]=str(QtWidgets.QTableWidgetItem.text(x))
             SurveyedNames=np.unique(SurveyedNamesAll)
             NSurveyedNames=np.size(SurveyedNames)
             N=self.AbsGTabview.rowCount()              
@@ -1372,7 +1373,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             for i in range(0,NSurveyedNames):
                 for j in range(0,N):
                     x=self.AbsGTabview.item(j,0)
-                    AbsNames=str(QtGui.QTableWidgetItem.text(x))
+                    AbsNames=str(QtWidgets.QTableWidgetItem.text(x))
                     if SurveyedNames[i]==AbsNames:
                         k=k+1
             self.SurveyTies.setRowCount(k)
@@ -1385,12 +1386,12 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                 for j in range(0,N):
                     absGname=self.AbsGTabview.item(j,0)
                     absGval=self.AbsGTabview.item(j,1)
-                    AbsNames=str(QtGui.QTableWidgetItem.text(absGname))
-                    AbsG=float(QtGui.QTableWidgetItem.text(absGval))
+                    AbsNames=str(QtWidgets.QTableWidgetItem.text(absGname))
+                    AbsG=float(QtWidgets.QTableWidgetItem.text(absGval))
                     if SurveyedNames[i]==AbsNames:
                         nk=nk+1
-                        self.SurveyTies.setItem(nk,0, QtGui.QTableWidgetItem(AbsNames))
-                        self.SurveyTies.setItem(nk,1, QtGui.QTableWidgetItem(str(AbsG)))
+                        self.SurveyTies.setItem(nk,0, QtWidgets.QTableWidgetItem(AbsNames))
+                        self.SurveyTies.setItem(nk,1, QtWidgets.QTableWidgetItem(str(AbsG)))
         if sw==7:
             sw2=ctypes.windll.user32.MessageBoxA(0, 'Add new row and insert manually?', 'Import', 4)
             if sw2==6:
@@ -1425,8 +1426,8 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         Use gdal to read grid files \n
         Many available raster formats!!!
         """
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)        
-        #QtGui.QApplication.restoreOverrideCursor()
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)        
+        #QtWidgets.QApplication.restoreOverrideCursor()
         
         Tk().withdraw()
         DEMfile = askopenfilename(title='Select DEM file')
@@ -1509,14 +1510,14 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         self.innerradTC.setText(str((self.Easting_vals[2]
                                      -self.Easting_vals[1])/2))
         
-        global Easting
-        global Northing 
-        global Height 
-        global Height_array 
+        # global Easting
+        # global Northing 
+        # global Height 
+        # global Height_array 
         global Easting_vals 
         global Northing_vals
         
-        QtGui.QApplication.restoreOverrideCursor()
+        QtWidgets.QApplication.restoreOverrideCursor()
         
 
     def transform_coordinates(self, lon, lat):
@@ -1567,7 +1568,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             if sw2 == 7: 
                 sw3 = ctypes.windll.user32.MessageBoxA(0, 'Using given height',
                                                        'Observation Height', 0)                        
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         for i in range (0,Nlocations):
             elev[i] = Locations.cell(i+1,3).value
             Lat[i] = Locations.cell(i+1,1).value
@@ -1589,28 +1590,28 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                                      
                 DEMelev[i] = Height[np.where(Rad == Rad.min())]
             self.DEMelev = DEMelev
-        QtGui.QApplication.restoreOverrideCursor()    
+        QtWidgets.QApplication.restoreOverrideCursor()    
             
         for i in range(0,Nlocations):
-            self.EastingsNorthingsTC.setItem(i, 0, QtGui.QTableWidgetItem(str(Names[i])))
-            self.EastingsNorthingsTC.setItem(i, 1, QtGui.QTableWidgetItem(str(Lat[i])))
-            self.EastingsNorthingsTC.setItem(i, 2, QtGui.QTableWidgetItem(str(Long[i])))
-            self.EastingsNorthingsTC.setItem(i, 3, QtGui.QTableWidgetItem(str(east[i])))
-            self.EastingsNorthingsTC.setItem(i, 4, QtGui.QTableWidgetItem(str(north[i])))
-            self.EastingsNorthingsTC.setItem(i, 5, QtGui.QTableWidgetItem(str(elev[i])))
-            self.EastingsNorthingsTC.setItem(i, 6, QtGui.QTableWidgetItem(str(DEMelev[i])))
+            self.EastingsNorthingsTC.setItem(i, 0, QtWidgets.QTableWidgetItem(str(Names[i])))
+            self.EastingsNorthingsTC.setItem(i, 1, QtWidgets.QTableWidgetItem(str(Lat[i])))
+            self.EastingsNorthingsTC.setItem(i, 2, QtWidgets.QTableWidgetItem(str(Long[i])))
+            self.EastingsNorthingsTC.setItem(i, 3, QtWidgets.QTableWidgetItem(str(east[i])))
+            self.EastingsNorthingsTC.setItem(i, 4, QtWidgets.QTableWidgetItem(str(north[i])))
+            self.EastingsNorthingsTC.setItem(i, 5, QtWidgets.QTableWidgetItem(str(elev[i])))
+            self.EastingsNorthingsTC.setItem(i, 6, QtWidgets.QTableWidgetItem(str(DEMelev[i])))
             
-            self.EastingsNorthingsTC_results.setItem(i, 0, QtGui.QTableWidgetItem(str(Names[i])))
-            self.EastingsNorthingsTC_results.setItem(i, 1, QtGui.QTableWidgetItem(str(Lat[i])))
-            self.EastingsNorthingsTC_results.setItem(i, 2, QtGui.QTableWidgetItem(str(Long[i])))
-            self.EastingsNorthingsTC_results.setItem(i, 3, QtGui.QTableWidgetItem(str(east[i])))
-            self.EastingsNorthingsTC_results.setItem(i, 4, QtGui.QTableWidgetItem(str(north[i])))
-            self.EastingsNorthingsTC_results.setItem(i, 5, QtGui.QTableWidgetItem(str(elev[i])))
-            self.EastingsNorthingsTC_results.setItem(i, 6, QtGui.QTableWidgetItem(str(DEMelev[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 0, QtWidgets.QTableWidgetItem(str(Names[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 1, QtWidgets.QTableWidgetItem(str(Lat[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 2, QtWidgets.QTableWidgetItem(str(Long[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 3, QtWidgets.QTableWidgetItem(str(east[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 4, QtWidgets.QTableWidgetItem(str(north[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 5, QtWidgets.QTableWidgetItem(str(elev[i])))
+            self.EastingsNorthingsTC_results.setItem(i, 6, QtWidgets.QTableWidgetItem(str(DEMelev[i])))
         
-        global east
-        global north
-        global DEMelev
+        # global east
+        # global north
+        # global DEMelev
         
         self.TCplot2.axes.hold(True)
         im2 = self.TCplot2.axes.imshow(self.Height_array, 
@@ -1642,7 +1643,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
 
 
     def CalcTCdo(self):
-        QtGui.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)        
+        QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)        
         
         #import np
         import TerrCorr
@@ -1691,7 +1692,7 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                                        np.abs(Heightv2),
                                        rho,reso)
             self.EastingsNorthingsTC_results.setItem(i, 7,
-                                        QtGui.QTableWidgetItem(str(TC[i])))
+                                        QtWidgets.QTableWidgetItem(str(TC[i])))
             self.TCplot2.axes.plot(easti/self.figDiv, northi/self.figDiv, 'wx') 
             Vplot = "%.3f" % TC[i]
             self.TCplot2.axes.text(easti/self.figDiv, northi/self.figDiv, Vplot)
@@ -1707,12 +1708,12 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         print(TC)
         
         #self.mplwidget.axes.set_aspect('equal')
-        self.TCparameter_results.setItem(0, 0, QtGui.QTableWidgetItem(str(rho)))
-        self.TCparameter_results.setItem(0, 1, QtGui.QTableWidgetItem(str(reso)))
-        self.TCparameter_results.setItem(0, 2, QtGui.QTableWidgetItem(str(innerrad)))
-        self.TCparameter_results.setItem(0, 3, QtGui.QTableWidgetItem(str(outrad)))
+        self.TCparameter_results.setItem(0, 0, QtWidgets.QTableWidgetItem(str(rho)))
+        self.TCparameter_results.setItem(0, 1, QtWidgets.QTableWidgetItem(str(reso)))
+        self.TCparameter_results.setItem(0, 2, QtWidgets.QTableWidgetItem(str(innerrad)))
+        self.TCparameter_results.setItem(0, 3, QtWidgets.QTableWidgetItem(str(outrad)))
         
-        QtGui.QApplication.restoreOverrideCursor()
+        QtWidgets.QApplication.restoreOverrideCursor()
            
     def ExportTCdo(self):        
         import tkFileDialog
@@ -1743,10 +1744,10 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         inn = self.TCparameter_results.item(0,2)
         out = self.TCparameter_results.item(0,3)
         
-        w.get_sheet(1).write(1,0,float(str(QtGui.QTableWidgetItem.text(rho))))
-        w.get_sheet(1).write(1,1,float(str(QtGui.QTableWidgetItem.text(res))))      
-        w.get_sheet(1).write(1,2,float(str(QtGui.QTableWidgetItem.text(inn))))       
-        w.get_sheet(1).write(1,3,float(str(QtGui.QTableWidgetItem.text(out))))
+        w.get_sheet(1).write(1,0,float(str(QtWidgets.QTableWidgetItem.text(rho))))
+        w.get_sheet(1).write(1,1,float(str(QtWidgets.QTableWidgetItem.text(res))))      
+        w.get_sheet(1).write(1,2,float(str(QtWidgets.QTableWidgetItem.text(inn))))       
+        w.get_sheet(1).write(1,3,float(str(QtWidgets.QTableWidgetItem.text(out))))
         
         for i in range(0,Nrows):
             Name = self.EastingsNorthingsTC_results.item(i,0)
@@ -1757,19 +1758,19 @@ class DesignerMainWindow(QtGui.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             y = self.EastingsNorthingsTC_results.item(i,5)
             H2 = self.EastingsNorthingsTC_results.item(i,6)
             TC1 = self.EastingsNorthingsTC_results.item(i,7)
-            w.get_sheet(0).write(int(i+1),0,str(QtGui.QTableWidgetItem.text(Name)))       
-            w.get_sheet(0).write(int(i+1),1,float(str(QtGui.QTableWidgetItem.text(Lat))))        
-            w.get_sheet(0).write(int(i+1),2,float(str(QtGui.QTableWidgetItem.text(Long))))                           
-            w.get_sheet(0).write(int(i+1),3,float(str(QtGui.QTableWidgetItem.text(H1))))                           
-            w.get_sheet(0).write(int(i+1),4,float(str(QtGui.QTableWidgetItem.text(x))))                           
-            w.get_sheet(0).write(int(i+1),5,float(str(QtGui.QTableWidgetItem.text(y))))                           
-            w.get_sheet(0).write(int(i+1),6,float(str(QtGui.QTableWidgetItem.text(H2))))                           
-            w.get_sheet(0).write(int(i+1),7,float(str(QtGui.QTableWidgetItem.text(TC1))))                           
+            w.get_sheet(0).write(int(i+1),0,str(QtWidgets.QTableWidgetItem.text(Name)))       
+            w.get_sheet(0).write(int(i+1),1,float(str(QtWidgets.QTableWidgetItem.text(Lat))))        
+            w.get_sheet(0).write(int(i+1),2,float(str(QtWidgets.QTableWidgetItem.text(Long))))                           
+            w.get_sheet(0).write(int(i+1),3,float(str(QtWidgets.QTableWidgetItem.text(H1))))                           
+            w.get_sheet(0).write(int(i+1),4,float(str(QtWidgets.QTableWidgetItem.text(x))))                           
+            w.get_sheet(0).write(int(i+1),5,float(str(QtWidgets.QTableWidgetItem.text(y))))                           
+            w.get_sheet(0).write(int(i+1),6,float(str(QtWidgets.QTableWidgetItem.text(H2))))                           
+            w.get_sheet(0).write(int(i+1),7,float(str(QtWidgets.QTableWidgetItem.text(TC1))))                           
         w.save(filename+'.xls')
 
 
 if __name__=='__main__':
-    app = QtGui.QApplication(sys.argv)
+    app = QtWidgets.QApplication(sys.argv)
     
     # start program #    
     dmw = DesignerMainWindow()

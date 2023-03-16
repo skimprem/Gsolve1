@@ -13,6 +13,7 @@ from PyQt5 import QtGui
 from PyQt5 import QtWidgets
 from tkinter import Tk
 from tkinter.filedialog import askopenfilename
+from tkinter import messagebox
 import xlrd
 import xlwt
 import os.path
@@ -123,9 +124,9 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
 
         
     def SaveSurveyDatatoEx(self):
-        import tkFileDialog
+        from tkinter import filedialog
         Tk().withdraw()
-        filename = tkFileDialog.asksaveasfilename()
+        filename = filedialog.asksaveasfilename()
         
         w = xlwt.Workbook()
         Nrows = self.SurveyDataTab.rowCount()
@@ -190,19 +191,22 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
 
     
     def AboutGsolve(self):
-        sw = ctypes.windll.user32.MessageBoxA(0,'Gsolve, python version 1.'+ \
-        '\n'+'\n'+'Created by Jack McCubbine and Grant O\'Brien,'+'\n'+ \
-        'May 2014-2016.',\
-        'About', 0)
-        print(sw)
-
-              
+        title = 'About'
+        message = '''
+Gsolve, python version 1.
+Created by Jack McCubbine and Grant O\'Brien,
+May 2014-2016.
+'''
+        messagebox.showinfo(
+            title = title,
+            message = message
+        ) 
+            
     def Newsurvey(self):
-        sw = ctypes.windll.user32.MessageBoxA(0, 'Are you sure you want to \
-        start a new survey? This will clear all current survey data and \
-        results.', 'New', 1)
-        
-        if sw == 1:
+        title = 'New'
+        message = 'Are you sure you want to start a new survey? This will clear all current survey data and results.'
+        new_survey = messagebox.askyesno(title, message)
+        if new_survey:
             #raise SystemExit 
             self.DetailedResultsTabview.setRowCount(0)
             self.MainResultsTabview.setRowCount(0)
@@ -211,16 +215,14 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
             self.SurveyTies.setRowCount(0)
             self.GravityReductionsTab.setRowCount(0)
  
-           
     def Exitsurvey(self):
-        sw = ctypes.windll.user32.MessageBoxA(0, 'Are you sure you want to \
-        exit?', 'Exit', 1)
-        
-        if sw == 1:
-            #raise SystemExit
-            print("Goodbye")
+        title = 'Exit'
+        message = 'Are you sure you want to exit?'
+
+        exit_survey = messagebox.askyesno(title, message)
+           
+        if exit_survey:
             os._exit(1)
-            
             
 ###############################################################################            
     def Driftplot(self):
@@ -480,9 +482,9 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
 
  
     def ExportDetailedResultstoEx(self):
-        import tkFileDialog
+        from tkinter import filedialog
         Tk().withdraw()
-        filename = tkFileDialog.asksaveasfilename()
+        filename = filedialog.asksaveasfilename()
         
         w = xlwt.Workbook()
         
@@ -660,9 +662,9 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
               
         
     def ExportMainResults(self):
-        import tkFileDialog
+        from tkinter import filedialog
         Tk().withdraw()
-        filename = tkFileDialog.asksaveasfilename()
+        filename = filedialog.asksaveasfilename()
         
         w = xlwt.Workbook()
         Nrows = self.MainResultsTabview.rowCount()
@@ -735,10 +737,10 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
  
        
     def AddNewAbsGTie(self):        
-        sw = ctypes.windll.user32.MessageBoxA(0,
-        'A new space will be added to the Absolute Gravity database table. Remember to click save when you are finished',
-        'New tie value', 1)
-        if sw == 1:
+        title = 'New tie value'
+        message = 'A new space will be added to the Absolute Gravity database table. Remember to click save when you are finished'
+        add_new_abs_g_tie = messagebox.askyesno(title, message)
+        if add_new_abs_g_tie:
             Nrows = self.AbsGTabview.rowCount()
             Nrowsnew = int(Nrows+1)
             self.AbsGTabview.setRowCount(Nrowsnew)
@@ -943,10 +945,10 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
                 if SiteNames[j]==TIENames[k]:
                     Noties=1
         if Nties==0 or Noties==0:
-            sw=ctypes.windll.user32.MessageBoxA(0, 'Warning: Please add at least one absolute gravity tie station.', 'Warning', 0)
+            messagebox.showwarning('Warning', 'Warning: Please add at least one absolute gravity tie station.')
             return
         if itsok==0:
-            sw=ctypes.windll.user32.MessageBoxA(0, 'Warning: The are no ties in the survey data after confidence interval filtering, please increase the confidence interval and try again.', 'Warning', 0)
+            messagebox.showwarning('Warning', 'Warning: The are no ties in the survey data after confidence interval filtering, please increase the confidence interval and try again.')
             return        
         if Method=='Method 1: Normal Least Squares' and CB==0:
             Betat=self.BetaIne
@@ -1081,22 +1083,28 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
     def Remove_AbsG_data(self):
         
         Nrows=self.AbsGTabview.rowCount()
-        k=0;
+        k=0
         for i in range(0,Nrows):
             x=self.AbsGTabview.item(i,0)
-            if self.AbsGTabview.isItemSelected(x):
+            # if self.AbsGTabview.isItemSelected(x):
+            if self.AbsGTabview.isSelected(x):
                 k=k+1
                 Names=QtWidgets.QTableWidgetItem.text(x)
         Names=strs = ["" for x in range(k)]
         k=-1
         for i in range(0,Nrows):
             x=self.AbsGTabview.item(i,0)
-            if self.AbsGTabview.isItemSelected(x):
+            # if self.AbsGTabview.isItemSelected(x):
+            if self.AbsGTabview.isSelected(x):
                 k=k+1
                 Names[k]=str(QtWidgets.QTableWidgetItem.text(x))
         
-        sw=ctypes.windll.user32.MessageBoxA(0, 'Are you sure you want to remove these ties from the database', 'Warning', 4)
-        if sw==6:
+        title = 'Warning'
+        message = 'Are you sure you want to remove these ties from the database?'
+        remove_abs_g_data = messagebox.askquestion()
+        # sw=ctypes.windll.user32.MessageBoxA(0, , , 4)
+        print(remove_abs_g_data)
+        if remove_abs_g_data:
             
             # Update Database of Calibration Tables
             w1 =xlrd.open_workbook('Absolute Gravity/Absolute Gravity.xls')
@@ -1716,9 +1724,9 @@ class DesignerMainWindow(QtWidgets.QMainWindow, GsolveGUIv3.Ui_Gsolve):
         QtWidgets.QApplication.restoreOverrideCursor()
            
     def ExportTCdo(self):        
-        import tkFileDialog
+        from tkinter import filedialog
         Tk().withdraw()
-        filename = tkFileDialog.asksaveasfilename()
+        filename = filedialog.asksaveasfilename()
         
         w = xlwt.Workbook()
         Nrows = self.EastingsNorthingsTC_results.rowCount()

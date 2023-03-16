@@ -268,9 +268,9 @@ May 2014-2016.
             Driftp = -float(QtWidgets.QTableWidgetItem.text(Drift)) 
             
             Betat = self.BetaOut
-            Beta = -float(QtGui.QLineEdit.text(Betat))
+            Beta = -float(QtWidgets.QLineEdit.text(Betat))
             Betatin = self.BetaIne
-            Betain = -float(QtGui.QLineEdit.text(Betatin))
+            Betain = -float(QtWidgets.QLineEdit.text(Betatin))
             x = self.CalculateBeta        
 #            if Betain==Beta and QtGui.QCheckBox.isChecked(x)==False:
 #                CDialp=CDialp-Beta*CDialp
@@ -334,15 +334,15 @@ May 2014-2016.
             Driftp = -float(QtWidgets.QTableWidgetItem.text(Drift)) 
             
             Betat = self.BetaOut
-            Beta = -float(QtGui.QLineEdit.text(Betat))
+            Beta = -float(QtWidgets.QLineEdit.text(Betat))
             Betatin = self.BetaIne
-            Betain = -float(QtGui.QLineEdit.text(Betatin))
+            Betain = -float(QtWidgets.QLineEdit.text(Betatin))
             x = self.CalculateBeta        
             #if Betain==Beta and QtGui.QCheckBox.isChecked(x)==False:
                  #CDialp=CDialp-Beta*CDialp
                 #Beta=0
             CIt = self.ConfInt
-            CI = float(QtGui.QLineEdit.text(CIt))
+            CI = float(QtWidgets.QLineEdit.text(CIt))
             
             fig = matplotlib.pyplot.figure()
             ax = fig.add_subplot(111)
@@ -500,12 +500,12 @@ May 2014-2016.
                               cell_overwrite_ok=True)   
         
         x = self.CalculateBeta        
-        if QtGui.QCheckBox.isChecked(x) == True:
+        if QtWidgets.QCheckBox.isChecked(x) == True:
             CB = 1
         else:
             CB = 0 
         x = self.UseLoops                            
-        if QtGui.QCheckBox.isChecked(x) == True:
+        if QtWidgets.QCheckBox.isChecked(x) == True:
             UL = 1
         else:
             UL = 0    
@@ -533,7 +533,7 @@ May 2014-2016.
         w.get_sheet(3).write(0, 0, str('Beta Calibration factor'))
 
         Betat = self.BetaOut
-        Beta = float(QtGui.QLineEdit.text(Betat))
+        Beta = float(QtWidgets.QLineEdit.text(Betat))
         w.get_sheet(3).write(int(1), 0, str(Beta))        
             
         Nrows=self.DriftTabview.rowCount()
@@ -831,20 +831,20 @@ May 2014-2016.
         #self.UseLoops.
         x=self.UseLoops
         import GSOLVER
-        if QtGui.QCheckBox.isChecked(x)==True:
+        if QtWidgets.QCheckBox.isChecked(x)==True:
             UL=1
         else:
             UL=0    
         Method=self.MethodSelect.currentText()
         x=self.CalculateBeta        
-        if QtGui.QCheckBox.isChecked(x)==True:
+        if QtWidgets.QCheckBox.isChecked(x)==True:
             CB=1
         else:
             CB=0    
         
         if Method=='Method 1: Normal Least Squares' and CB==0:
             Betat=self.BetaIne
-            Beta=float(QtGui.QLineEdit.text(Betat))
+            Beta=float(QtWidgets.QLineEdit.text(Betat))
             TideFreeCalDial=TideFreeCalDial-np.dot(Beta,CalDials)
             [ABSG,RES,SiteVar,Drift,BL]=GSOLVER.GsolverM1(TideFreeCalDial,SurveyedNames,SiteNames,TIM,TIENames,TIEVals,Loops,UL)
             M=1
@@ -855,7 +855,7 @@ May 2014-2016.
             self.BetaOut.setText(str(float(Beta)))
         if Method=='Method 2: Decoupled Least Squares' and CB==0:
             Betat=self.BetaIne
-            Beta=float(QtGui.QLineEdit.text(Betat))
+            Beta=float(QtWidgets.QLineEdit.text(Betat))
             TideFreeCalDial=TideFreeCalDial-np.dot(Beta,CalDials)
             [ABSG,RES,SiteVar,Drift,BL]=GSOLVER.GsolverM2(TideFreeCalDial,SurveyedNames,SiteNames,TIM,TIENames,TIEVals,Loops,UL)
             M=2
@@ -866,7 +866,7 @@ May 2014-2016.
             self.BetaOut.setText(str(float(Beta)))
         if Method=='Method 3: Constrained Least Squares' and CB==0:
             Betat=self.BetaIne
-            Beta=float(QtGui.QLineEdit.text(Betat))
+            Beta=float(QtWidgets.QLineEdit.text(Betat))
             TideFreeCalDial=TideFreeCalDial-np.dot(Beta,CalDials)
             M=3
             [ABSG,RES,SiteVar,Drift,BL]=GSOLVER.GsolverM3(TideFreeCalDial,SurveyedNames,SiteNames,TIM,TIENames,TIEVals,Loops,UL)
@@ -882,7 +882,7 @@ May 2014-2016.
         for k in range(0,Nmeasurements):
             RESobs[k]=RES[k]
         CIqt=self.ConfInt
-        CI=float(QtGui.QLineEdit.text(CIqt))
+        CI=float(QtWidgets.QLineEdit.text(CIqt))
 
         L=np.percentile(RESobs,(100-CI)/2)
         M=np.percentile(RESobs,100-(100-CI)/2)
@@ -952,7 +952,7 @@ May 2014-2016.
             return        
         if Method=='Method 1: Normal Least Squares' and CB==0:
             Betat=self.BetaIne
-            Beta=float(QtGui.QLineEdit.text(Betat))
+            Beta=float(QtWidgets.QLineEdit.text(Betat))
             TideFreeCalDial=TideFreeCalDial2-np.dot(Beta,CalDials2)
             [ABSG2,RES2,SiteVar2,Drift2,BL]=GSOLVER.GsolverM1(TideFreeCalDial2,SurveyedNames2,SiteNames2,TIM2,TIENames,TIEVals,Loops2,UL)
             M=1
@@ -963,7 +963,7 @@ May 2014-2016.
             self.BetaOut.setText(str(float(-Beta2)))
         if Method=='Method 2: Decoupled Least Squares' and CB==0:
             Betat=self.BetaIne
-            Beta=float(QtGui.QLineEdit.text(Betat))
+            Beta=float(QtWidgets.QLineEdit.text(Betat))
             TideFreeCalDial=TideFreeCalDial2-np.dot(Beta,CalDials2)
             [ABSG2,RES2,SiteVar2,Drift2,BL]=GSOLVER.GsolverM2(TideFreeCalDial2,SurveyedNames2,SiteNames2,TIM2,TIENames,TIEVals,Loops2,UL)
             M=2
@@ -974,7 +974,7 @@ May 2014-2016.
             self.BetaOut.setText(str(float(-Beta2)))
         if Method=='Method 3: Constrained Least Squares' and CB==0:
             Betat=self.BetaIne
-            Beta=float(QtGui.QLineEdit.text(Betat))
+            Beta=float(QtWidgets.QLineEdit.text(Betat))
             TideFreeCalDial=TideFreeCalDial2-np.dot(Beta,CalDials2)
             M=3
             [ABSG2,RES2,SiteVar2,Drift2,BL]=GSOLVER.GsolverM3(TideFreeCalDial2,SurveyedNames2,SiteNames2,TIM2,TIENames,TIEVals,Loops2,UL)
@@ -1102,7 +1102,6 @@ May 2014-2016.
         title = 'Warning'
         message = 'Are you sure you want to remove these ties from the database?'
         remove_abs_g_data = messagebox.askquestion()
-        # sw=ctypes.windll.user32.MessageBoxA(0, , , 4)
         print(remove_abs_g_data)
         if remove_abs_g_data:
             
@@ -1161,14 +1160,16 @@ May 2014-2016.
             rj=-1
             for j in range(0,NAC):
                 if AllImportDataTab.cell(i-NAC,0).value==Wsheet.cell(j,0).value:
-                    sw=ctypes.windll.user32.MessageBoxA(0,'Station in import file already exist in the data base, over-write?', 'Warning', 1)
+                    title = 'Warning'
+                    message = 'Station in import file already exist in the data base, over-write?'
+                    import_abs_g_data = messagebox.askyesno(title, message)
                     rj=j
-            if sw==1:
+            if import_abs_g_data:
                 w.get_sheet(0).write(rj,0,AllImportDataTab.cell(i-NAC,0).value)        
                 w.get_sheet(0).write(rj,1,AllImportDataTab.cell(i-NAC,1).value)        
                 w.get_sheet(0).write(rj,2,AllImportDataTab.cell(i-NAC,2).value)        
                 w.get_sheet(0).write(rj,3,AllImportDataTab.cell(i-NAC,3).value)        
-            if sw==0:
+            else:
                 NACi=int(NACi+1)
                 w.get_sheet(0).write(NACi,0,AllImportDataTab.cell(i-NAC,0).value)        
                 w.get_sheet(0).write(NACi,1,AllImportDataTab.cell(i-NAC,1).value)        
@@ -1193,7 +1194,9 @@ May 2014-2016.
         if x==True:
             N=self.SurveyTies.rowCount()
             if N<2:
-                ctypes.windll.user32.MessageBoxA(0, 'Must be using at least 2 tie stations to calculate the beta calibration factor.', 'Warning', 0)
+                title = 'Warning'
+                message = 'Must be using at least 2 tie stations to calculate the beta calibration factor.'
+                messagebox.showwarning(title, message)
                 self.CalculateBeta.setCheckState(0)
  
                
@@ -1276,8 +1279,11 @@ May 2014-2016.
         sw=0
         for k in range(0,Nsheets):
             if str(Allsheet[k])==str(CalibrationTableName[0]):
-                sw=ctypes.windll.user32.MessageBoxA(0, 'You already have a calibration table by that name in the data base', 'Warning', 0)
-        if sw==0:
+                title = 'Warning'
+                message = 'You already have a calibration table by that name in the data base'
+                import_cal_tab = messagebox.showwarning(title, message)
+        # if sw==0:
+        if not import_cal_tab:
             CalTab=wbCal.sheet_by_index(0)
             N=CalTab.nrows
             NLB=self.CalibrationTabSelectview.count()
@@ -1321,8 +1327,10 @@ May 2014-2016.
 
         
     def Remove_Cal_Tab(self):        
-        sw=ctypes.windll.user32.MessageBoxA(0, 'Are you sure you want to delete this calibration table?', 'Warning', 4)
-        if sw==6:
+        title = 'Warning'
+        message = 'Are you sure you want to delete this calibration table?'
+        remove_cal_tab = messagebox.askyesno(title, message)
+        if remove_cal_tab:
             w1 =xlrd.open_workbook('Calibration Tables/G meter Calibration Table.xls')
             Sname=self.CalibrationTabSelectview.currentText()
             Allsheet=w1.sheet_names()
@@ -1366,8 +1374,10 @@ May 2014-2016.
 
      
     def AddNewAbsTieForSolve(self):
-        sw=ctypes.windll.user32.MessageBoxA(0, 'Get ties stations from the absolute gravity data base', 'Import', 4)
-        if sw==6:
+        title = 'Import'
+        message = 'Get ties stations from the absolute gravity data base'
+        add_new_abs_tie_for_solve = messagebox.askyesno(title, message)
+        if add_new_abs_tie_for_solve:
             Nmeasurements=self.SurveyDataTab.rowCount()              
             SurveyedNamesAll=strs = ["" for x in range(Nmeasurements)]
             
@@ -1386,8 +1396,12 @@ May 2014-2016.
                         k=k+1
             self.SurveyTies.setRowCount(k)
             if k==0:
-                sw=ctypes.windll.user32.MessageBoxA(0,'No surveyed tie stations in the absolute gravity data base.'
-                +'\n'+'Please add the tie data manually or add new stations to the absolute gravity data base.', 'Import Error', 0)
+                title = 'Import Error'
+                message = '''
+No surveyed tie stations in the absolute gravity data base.
+Please add the tie data manually or add new stations to the absolute gravity data base.
+'''
+                messagebox.showerror(title, message)
                 
             nk=-1
             for i in range(0,NSurveyedNames):
@@ -1400,9 +1414,11 @@ May 2014-2016.
                         nk=nk+1
                         self.SurveyTies.setItem(nk,0, QtWidgets.QTableWidgetItem(AbsNames))
                         self.SurveyTies.setItem(nk,1, QtWidgets.QTableWidgetItem(str(AbsG)))
-        if sw==7:
-            sw2=ctypes.windll.user32.MessageBoxA(0, 'Add new row and insert manually?', 'Import', 4)
-            if sw2==6:
+        else:
+            title = 'Import'
+            message = 'Add new row and insert manually?'
+            add_new_row_and_insert_manualy = messagebox.askyesno(title, message)
+            if add_new_row_and_insert_manualy:
                 Nrows=self.SurveyTies.rowCount()
                 Nrowsnew=int(Nrows+1)
                 self.SurveyTies.setRowCount(Nrowsnew)
@@ -1568,14 +1584,17 @@ May 2014-2016.
                
         self.EastingsNorthingsTC.setRowCount(Nlocations)
         self.EastingsNorthingsTC_results.setRowCount(Nlocations)
-        sw = ctypes.windll.user32.MessageBoxA(0, 'Estimate DEM Height?',
-                                              'Observation Height', 4)
-        if sw == 7: 
-            sw2 = ctypes.windll.user32.MessageBoxA(0, 'Get DEM height from file?',
-                                                   'Observation Height', 4)
-            if sw2 == 7: 
-                sw3 = ctypes.windll.user32.MessageBoxA(0, 'Using given height',
-                                                       'Observation Height', 0)                        
+        title = 'Observation Height'
+        message = 'Estimate DEM Height?'
+        estimate_dem_height = messagebox.askyesno(title, message)
+        if not estimate_dem_height: 
+            title = 'Observation Height'
+            message = 'Get DEM height from file?'
+            get_dem_height_from_file = messagebox.askyesno(title, message)
+            if not get_dem_height_from_file: 
+                title = 'Observation Height'
+                message = 'Using given height'
+                messagebox.showinfo(title, message)
         QtWidgets.QApplication.setOverrideCursor(QtCore.Qt.WaitCursor)
         for i in range (0,Nlocations):
             elev[i] = Locations.cell(i+1,3).value
@@ -1586,12 +1605,12 @@ May 2014-2016.
             east[i] = Locations.cell(i+1,4).value
             north[i] = Locations.cell(i+1,5).value
             
-            if sw == 7:
-                if sw2 == 6:
+            if not estimate_dem_height:
+                if get_dem_height_from_file:
                     DEMelev[i] = Locations.cell(i+1,6).value
-                if sw2 == 7:
+                if not get_dem_height_from_file:
                     DEMelev[i] = Locations.cell(i+1,3).value         
-            if sw == 6:
+            if estimate_dem_height:
                 #print Northing.shape, Easting.shape
                 Rad = np.sqrt(np.add(np.square(Easting-east[i]),
                                      np.square(Northing-north[i])))

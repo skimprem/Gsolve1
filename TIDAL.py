@@ -70,7 +70,7 @@ def TIMANDJT(DD,MM,YYYY,hh,mm):
     TIM=numpy.mod(hh*100.0+mm+1200.0,2400.0)
     addday=numpy.floor((hh*100+mm+1200)/2400)
     from datetime import date
-    datenum1900=date(1900,01,01).toordinal()
+    datenum1900=date(1900,1,1).toordinal()
     datenumtoday=date(YYYY,MM,DD).toordinal()
     dayspast=datenumtoday-datenum1900+addday
     hourspast=dayspast*24

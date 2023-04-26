@@ -19,7 +19,6 @@ import xlwt
 import os.path
 import numpy as np
 from xlutils.copy import copy
-import ctypes 
 import GsolveGUIv3
 import matplotlib
 import matplotlib.pyplot
@@ -1087,7 +1086,7 @@ May 2014-2016.
         for i in range(0,Nrows):
             x=self.AbsGTabview.item(i,0)
             # if self.AbsGTabview.isItemSelected(x):
-            if self.AbsGTabview.isSelected(x):
+            if x.isSelected():
                 k=k+1
                 Names=QtWidgets.QTableWidgetItem.text(x)
         Names=strs = ["" for x in range(k)]
@@ -1095,7 +1094,7 @@ May 2014-2016.
         for i in range(0,Nrows):
             x=self.AbsGTabview.item(i,0)
             # if self.AbsGTabview.isItemSelected(x):
-            if self.AbsGTabview.isSelected(x):
+            if x.isSelected():
                 k=k+1
                 Names[k]=str(QtWidgets.QTableWidgetItem.text(x))
         

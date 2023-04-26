@@ -663,6 +663,7 @@ class Ui_Gsolve(object):
         self.frame.setObjectName(_fromUtf8("frame"))
         self.gridLayout_14 = QtWidgets.QGridLayout(self.frame)
         self.gridLayout_14.setObjectName(_fromUtf8("gridLayout_14"))
+
         self.AbsGTabview = QtWidgets.QTableWidget(self.frame)
         self.AbsGTabview.setEditTriggers(QtWidgets.QAbstractItemView.AllEditTriggers)
         self.AbsGTabview.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
